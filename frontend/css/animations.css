@@ -1,0 +1,170 @@
+/* Enhanced Animations for Kalpana v3.0 */
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        box-shadow: 0 0 30px var(--cyber-blue), inset 0 0 30px var(--cyber-blue); 
+        opacity: 0.9; 
+    }
+    50% { 
+        box-shadow: 0 0 60px var(--electric-cyan), inset 0 0 50px var(--electric-cyan); 
+        opacity: 1; 
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes scan {
+    0% { top: -10%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* Enhanced Arc Reactor / Core */
+.core-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.ring-1 {
+    width: 350px;
+    height: 350px;
+    border: 3px solid rgba(0, 217, 255, 0.2);
+    animation: spin 15s linear infinite;
+    filter: drop-shadow(0 0 20px var(--cyber-blue));
+}
+
+.ring-2 {
+    width: 280px;
+    height: 280px;
+    border: 3px solid transparent;
+    border-left: 3px solid var(--electric-cyan);
+    border-right: 3px solid var(--electric-cyan);
+    animation: spin-reverse 12s linear infinite;
+    filter: drop-shadow(0 0 15px var(--electric-cyan));
+}
+
+.ring-3 {
+    width: 220px;
+    height: 220px;
+    border: 2px solid rgba(184, 51, 255, 0.3);
+    opacity: 0.6;
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.ring-4 {
+    width: 160px;
+    height: 160px;
+    border: 5px solid var(--cyber-blue);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 40px var(--cyber-blue), 
+        inset 0 0 30px var(--cyber-blue),
+        0 0 60px rgba(0, 217, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: spin 20s linear infinite;
+}
+
+.core-center {
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(
+        circle, 
+        #ffffff 0%, 
+        var(--electric-cyan) 30%, 
+        var(--cyber-blue) 100%
+    );
+    border-radius: 50%;
+    box-shadow: 
+        0 0 60px #ffffff,
+        0 0 80px var(--electric-cyan),
+        inset 0 0 30px var(--cyber-blue);
+    animation: pulse-glow 2s infinite alternate;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.core-center:hover {
+    transform: scale(1.15);
+    box-shadow: 
+        0 0 80px #ffffff,
+        0 0 100px var(--electric-cyan),
+        inset 0 0 40px var(--cyber-blue);
+}
+
+.core-center.listening {
+    animation: pulse-fast 0.4s infinite;
+    background: radial-gradient(
+        circle, 
+        #ffffff 0%, 
+        var(--warning-orange) 30%, 
+        #ff0000 100%
+    );
+    box-shadow: 
+        0 0 60px var(--warning-orange),
+        0 0 80px #ff0000,
+        inset 0 0 30px var(--warning-orange);
+}
+
+.core-center.processing {
+    animation: spin 2s linear infinite;
+    background: radial-gradient(
+        circle, 
+        #ffffff 0%, 
+        #ffff00 30%, 
+        var(--warning-orange) 100%
+    );
+    box-shadow: 
+        0 0 60px #ffff00,
+        0 0 80px var(--warning-orange),
+        inset 0 0 30px #ffff00;
+}
+
+@keyframes pulse-fast {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* Energy Particles */
+.core-ring::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--electric-cyan);
+    border-radius: 50%;
+    top: 50%;
+    left: 0;
+    box-shadow: 0 0 15px var(--electric-cyan);
+    animation: particle-orbit inherit;
+}
+
+@keyframes particle-orbit {
+    0% { transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg); }
+}
+
+.ring-1::after { --orbit-radius: 175px; }
+.ring-2::after { --orbit-radius: 140px; }
+.ring-3::after { --orbit-radius: 110px; }

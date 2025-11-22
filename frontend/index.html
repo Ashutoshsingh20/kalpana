@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALPANA HUD v3.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="panel header">
+        <div class="logo-container">
+            <div class="logo-icon">K</div>
+            <div class="logo-text">KALPANA</div>
+        </div>
+        <div class="system-time" id="clock">00:00:00</div>
+        <div class="status-indicator" id="status" style="color: var(--primary-color); font-weight: bold; letter-spacing: 2px;">SYSTEM ONLINE</div>
+    </div>
+
+    <!-- Left Sidebar: Vitals -->
+    <div class="panel sidebar-left">
+        <div class="section-title">
+            <span>System Vitals</span>
+            <span>[VIT-01]</span>
+        </div>
+        
+        <div class="stat-item">
+            <span>CPU LOAD</span>
+            <span id="cpu-val">0%</span>
+        </div>
+        <div class="stat-bar-container">
+            <div class="stat-bar-fill" id="cpu-bar" style="width: 0%"></div>
+        </div>
+
+        <div class="stat-item" style="margin-top: 15px;">
+            <span>MEMORY</span>
+            <span id="ram-val">0%</span>
+        </div>
+        <div class="stat-bar-container">
+            <div class="stat-bar-fill" id="ram-bar" style="width: 0%"></div>
+        </div>
+
+        <div class="stat-item" style="margin-top: 15px;">
+            <span>POWER</span>
+            <span id="pwr-val">100%</span>
+        </div>
+        <div class="stat-bar-container">
+            <div class="stat-bar-fill" style="width: 100%"></div>
+        </div>
+
+        <div class="section-title" style="margin-top: 30px;">
+            <span>Sensors</span>
+            <span>[SEN-02]</span>
+        </div>
+        <div class="stat-item"><span>CORE TEMP</span><span id="temp-val">45°C</span></div>
+        <div class="stat-item"><span>FAN SPEED</span><span>2400 RPM</span></div>
+        <div class="stat-item"><span>VOLTAGE</span><span>12.4 V</span></div>
+    </div>
+
+    <!-- Center Display: Hologram -->
+    <div class="main-display">
+        <div class="hologram-container">
+            <div class="core-ring ring-1"></div>
+            <div class="core-ring ring-2"></div>
+            <div class="core-ring ring-3"></div>
+            <div class="core-ring ring-4">
+                <div class="core-center" id="arc-core" onclick="toggleVoiceInput()" title="Click to speak"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Sidebar: Missions & Security -->
+    <div class="panel sidebar-right">
+        <div class="section-title">
+            <span>Active Protocols</span>
+            <span>[PRO-03]</span>
+        </div>
+        <div id="mission-list">
+            <div class="stat-item"><span>IDLE</span><span style="color: #555;">--</span></div>
+        </div>
+
+        <div class="section-title">NETWORK STATUS</div>
+        <div class="stat-item">
+            <span>Connection:</span>
+            <span id="status" style="color: var(--alert-color);">OFFLINE</span>
+        </div>
+        <div class="stat-item">
+            <span>Latency:</span>
+            <span>--ms</span>
+        </div>
+    </div>
+    
+    <div class="panel sidebar-right security-panel">
+        <div class="section-title">SECURITY MATRIX</div>
+        <div class="threat-indicator">
+            <span>Threat Level:</span>
+            <span id="threat-level" class="threat-low">LOW</span>
+        </div>
+        <div class="stat-item">
+            <span>Firewall:</span>
+            <span id="firewall-status">CHECKING...</span>
+        </div>
+        <div class="stat-item">
+            <span>Files Monitored:</span>
+            <span id="monitored-count">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Threat Score:</span>
+            <span id="threat-score">0</span>
+        </div>
+        <div class="threat-feed" id="threat-feed">
+            <div style="font-size: 11px; opacity: 0.6; margin-top: 10px;">No threats detected</div>
+        </div>
+    </div>
+        <!-- Fake Network Map Placeholder -->
+        <div style="margin-top: 20px; height: 100px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(0,255,255,0.3); font-size: 10px;">[ NETWORK TOPOLOGY ]</div>
+            <!-- Animated dots could go here via JS -->
+        </div>
+
+    <!-- Footer: Console & Controls -->
+    <div class="panel footer">
+        <div class="console-window" id="console-output">
+            <div class="console-line">> Initializing Kalpana Core v3.0...</div>
+            <div class="console-line">> Loading Neural Interfaces...</div>
+            <div class="console-line latest">> System Ready. Waiting for input...</div>
+        </div>
+        <div class="control-panel">
+            <button class="control-btn" onclick="runDiagnostics()">🔍 DIAGNOSTICS</button>
+            <button class="control-btn chat-btn" onclick="testChat()">💬 TEST CHAT</button>
+            <button class="control-btn voice-btn" onclick="testVoice()">🔊 TEST VOICE</button>
+            <button class="control-btn security-btn" onclick="testSecurity()">🛡️ SECURITY</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script src="js/voice.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Socket connection logic kept inline or moved to ui.js. 
+        // For now, I'll keep the specific socket logic here but delegate UI updates to ui.js functions if possible,
+        // or just keep it simple.
+        
+        const socket = io();
+        const consoleDiv = document.getElementById('console-output');
+
+        function log(msg) {
+            const line = document.createElement('div');
+            line.innerHTML = `> ${msg}`;
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        function runDiagnostics() {
+            log("Requesting System Diagnostics...");
+            fetch('/api/test/diagnostics', { method: 'POST' })
+                .catch(err => log(`Error: ${err}`));
+        }
+
+        function testChat() {
+            log("Testing Ollama LLM Integration...");
+            fetch('/api/test/chat', { 
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message: "Hello Kalpana, can you hear me?"})
+            })
+            .catch(err => log(`Error: ${err}`));
+        }
+
+        function testVoice() {
+            log("Testing Voice Engine (TTS)...");
+            fetch('/api/test/voice', { 
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text: "Kalpana voice systems online. All neural pathways functioning within normal parameters."})
+            })
+            .catch(err => log(`Error: ${err}`));
+        }
+
+        function testSecurity() {
+            log("Testing Security Core...");
+            fetch('/api/test/security', { method: 'POST' })
+                .catch(err => log(`Error: ${err}`));
+        }
+
+        socket.on('connect', () => {
+            log('Connected to Backend Server.');
+            document.getElementById('status').textContent = "CONNECTED";
+            document.getElementById('status').style.color = "#00aaff";
+        });
+
+        socket.on('disconnect', () => {
+            log('Lost connection to Backend.');
+            document.getElementById('status').textContent = "OFFLINE";
+            document.getElementById('status').style.color = "#ff0000";
+        });
+
+        socket.on('system_event', (data) => {
+            let color = '#aaddff';
+            if(data.type === 'success') color = '#00aaff';
+            if(data.type === 'action') color = '#ffff00';
+            log(`<span style="color:${color}">${data.message}</span>`);
+        });
+
+        socket.on('diagnostics_result', (data) => {
+            log(`<b>DIAGNOSTICS REPORT:</b>`);
+            log(`Local IP: ${data.local_ip}`);
+            log(`Active Connections: ${data.active_connections}`);
+            data.top_connections.forEach(conn => {
+                log(`- ${conn.local} -> ${conn.remote} [${conn.status}]`);
+            });
+        });
+
+        socket.on('chat_response', (data) => {
+            log(`<b style="color: #ffaa00">[USER]:</b> ${data.user}`);
+            log(`<b style="color: var(--primary-color)">[KALPANA]:</b> ${data.kalpana}`);
+        });
+
+        socket.on('security_status', (data) => {
+            log(`<b style="color: #ff6600">[SECURITY]:</b> ${data.message}`);
+            log(`Monitor Status: ${data.monitor_status}`);
+            log(`Protected Path: ${data.protected_path}`);
+        });
+
+        socket.on('system_stats', (data) => {
+            // Update stats from backend
+            if(data.cpu) document.getElementById('cpu-val').textContent = data.cpu + '%';
+            if(data.ram) document.getElementById('ram-val').textContent = data.ram + '%';
+        });
+
+        // Clock
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>

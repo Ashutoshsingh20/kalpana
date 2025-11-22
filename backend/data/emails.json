@@ -1,0 +1,11 @@
+[
+  {
+    "id": "email_1",
+    "to": "test@example.com",
+    "from": "kalpana@local",
+    "subject": "Test Email from Kalpana",
+    "body": "This is a test email body",
+    "date": "2025-11-22T13:24:54.431595",
+    "type": "sent"
+  }
+]
