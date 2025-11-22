@@ -287,8 +287,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Ashutosh Singh**
 - GitHub: [@Ashutoshsingh20](https://github.com/Ashutoshsingh20)
-- LinkedIn: [Connect with me](https://linkedin.com/in/ashutoshsingh)
-
+- LinkedIn: [ashutosh-singh-6b2120248](https://www.linkedin.com/in/ashutosh-singh-6b2120248/)
+- - Email: [imashutoshingh15@gmail.com](mailto:imashutoshingh15@gmail.com)
 ---
 
 ## 🙏 Acknowledgments
@@ -306,8 +306,7 @@ If you have any questions or run into issues:
 
 - Open an [Issue](https://github.com/Ashutoshsingh20/kalpana/issues)
 - Start a [Discussion](https://github.com/Ashutoshsingh20/kalpana/discussions)
-- Email: your.email@example.com
-
+- Email: [imashutoshingh15@gmail.com](mailto:imashutoshingh15@gmail.com)
 ---
 
 ## 🌟 Star History
